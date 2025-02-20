@@ -10,11 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@preact/signals-react": "^3.0.1",
     "axios": "^1.7.9",
     "brostech": "file:",
-    "leasedrop": "file:",
+    "iconsax-react": "^0.0.8",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-router-dom": "^7.2.0",
     "tailwind-scrollbar": "^3.1.0",
     "tailwind-scrollbar-hide": "^2.0.0"
   },
