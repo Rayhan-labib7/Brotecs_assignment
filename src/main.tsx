@@ -3,11 +3,6 @@ import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './routes';
 import './main.css';
-if (localStorage.getItem('theme') === 'dark') {
-  document.documentElement.classList.add('dark');
-} else {
-  document.documentElement.classList.remove('dark');
-}
 
 const App = () => {
   return <RouterProvider router={router} />;

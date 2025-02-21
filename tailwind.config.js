@@ -32,16 +32,7 @@ export default {
         scrollbarThumb: '#d1d5db',
         scrollbarDarkTrack: '#374151',
         scrollbarDarkThumb: '#6b7280',
-        background: "rgba(var(--background))",
-        border: "rgba(var(--border))",
-        card: "rgba(var(--card))",
-        "copy-primary": "rgba(var(--copy-primary))",
-        "copy-secondary": "rgba(var(--copy-secondary))",
-        cta: "rgba(var(--cta))",
-        "cta-active": "rgba(var(--cta-active))",
-        "cta-text": "rgba(var(--cta-text))",
-
-        grape: "rgba(var(--grape))",
+       
       },
     },
   },

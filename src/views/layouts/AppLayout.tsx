@@ -15,32 +15,13 @@ import Placeholder from "../../components/ui/Placeholder";
 
 
 const navItems = [
-  { name: 'Dashboard', icon: HomeTrendUp, href: '/home' },
-  { name: 'Home', icon: Box, href: '/home' },
+  { name: 'EmployeeTable', icon: HomeTrendUp, href: '/home' },
+  { name: 'EmployeeCard', icon: Box, href: '/employee-card' },
   { name: 'Leads', icon: ProfileAdd, href: '/lead' },
   { name: 'Opportunaties', icon: CloudLightning, href: '/opportunity' },
   { name: 'Contact', icon: Profile2User, href: '/contact' },
   { name: 'Product', icon: Profile2User, href: '/product' },
-  // {
-  //   name: 'Lead',
-  //   icon: ProfileAdd,
-  //   child: [
-  //     { name: 'Leads', href: '/lead' },
-  //     // { name: 'Create Leads', href: '/create-lead' },
-  //     { name: 'View Leads', href: '/view-lead' },
-  //     { name: 'Empty', href: '/empty' },
-  //   ],
-  // },
-  // {
-  //   name: 'Opportunaties',
-  //   icon: CloudLightning,
-  //   child: [
-  //     { name: 'Opportunity', href: '/opportunity' },
-  //     { name: 'Create Opportunity', href: '/create-opportunity' },
-  //     { name: 'View Opportunity', href: '/view-opportunity' },
-  //   ],
-  // },
-  // { name: 'Customer', icon: CloudLightning, href: '/customer' },
+
   {
     name: 'Users & permissions',
     icon: UserOctagon,
