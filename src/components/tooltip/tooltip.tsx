@@ -26,7 +26,7 @@ const Tooltip: React.FC<TooltipProps> = ({ content, placement = 'top', children 
   };
 
   return (
-    <div className="relative inline-block font-inter" onMouseEnter={showTooltip} onMouseLeave={hideTooltip}>
+    <div className="relative inline-block font-inter whitespace-nowrap" onMouseEnter={showTooltip} onMouseLeave={hideTooltip}>
       {children}
       {visible.value && (
         <div

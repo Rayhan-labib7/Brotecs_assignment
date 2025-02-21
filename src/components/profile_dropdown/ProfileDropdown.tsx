@@ -4,7 +4,6 @@ import ProfileImage from './ProfileImage';
 import Tooltip from '../tooltip/tooltip';
 import { useSignal } from '@preact/signals-react';
 import cn from '../../utils/cn';
-import oauthConfig from '../../../config/ouathConfig';
 
 const ProfileDropdown = ({ image, username }: { image: string; username: string }) => {
   const isOpen = useSignal(false);
@@ -15,23 +14,23 @@ const ProfileDropdown = ({ image, username }: { image: string; username: string 
 
   const toggleDropdown = () => (isOpen.value = !isOpen.value);
 
-  const handleLogout = async () => {
-    try {
-      const origin = window.location.origin;
+  // const handleLogout = async () => {
+  //   try {
+  //     const origin = window.location.origin;
 
-      localStorage.clear();
-      sessionStorage.clear();
+  //     localStorage.clear();
+  //     sessionStorage.clear();
 
-      document.cookie.split(';').forEach((cookie) => {
-        document.cookie = cookie.replace(/^ +/, '').replace(/=.*/, '=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/');
-      });
+  //     document.cookie.split(';').forEach((cookie) => {
+  //       document.cookie = cookie.replace(/^ +/, '').replace(/=.*/, '=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/');
+  //     });
 
-      // Trigger the first redirect and from first redirect second redirect will occur
-      window.location.href = `${oauthConfig.logoutUrl}?redirect=${origin}`;
-    } catch (error) {
-      console.error('Logout failed:', error);
-    }
-  };
+  //     // Trigger the first redirect and from first redirect second redirect will occur
+  //     window.location.href = `${oauthConfig.logoutUrl}?redirect=${origin}`;
+  //   } catch (error) {
+  //     console.error('Logout failed:', error);
+  //   }
+  // };
 
   return (
     <>
@@ -63,7 +62,7 @@ const ProfileDropdown = ({ image, username }: { image: string; username: string 
                 </div>
               </div>
               <Tooltip content="Logout" placement="bottom">
-                <div className="hover:bg-red-300 hover:rounded-md p-2 cursor-pointer" onClick={handleLogout}>
+                <div className="hover:bg-red-300 hover:rounded-md p-2 cursor-pointer" >
                   <Logout color="#dc2626" variant="Bulk" />
                 </div>
               </Tooltip>
@@ -72,7 +71,7 @@ const ProfileDropdown = ({ image, username }: { image: string; username: string 
             <hr className="my-2 border-t border-gray-300" />
             <div className="flex cursor-pointer items-center hover:bg-gray-100 hover:rounded-md mx-3 my-4 px-1">
               <Logout color="#5b6b79" variant="Bulk" />
-              <button className="w-full text-left text-sm text-gray-600 p-2" onClick={handleLogout}>
+              <button className="w-full text-left text-sm text-gray-600 p-2" >
                 Logout
               </button>
             </div>

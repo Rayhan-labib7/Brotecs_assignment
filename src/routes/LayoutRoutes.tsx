@@ -13,7 +13,7 @@ const LayoutRoutes = {
         ),
         children: [
           {
-            path: '/dashboard',
+            path: '/home',
             element: <HomePage />,
           },
        
