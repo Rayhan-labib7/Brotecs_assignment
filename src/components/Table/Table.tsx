@@ -127,13 +127,13 @@ const Table: React.FC<TableProps> = ({
 
   return (
     <div className={cn(
-     'bg-white rounded-md shadow-lg ',
-      isDarkMode ? 'bg-gray-800 text-white  rounded-lg shadow' : ''
+     '  ',
+      isDarkMode ? 'bg-gray-800 text-white  rounded-lg shadow' : 'bg-white rounded-md shadow-lg'
     )}>
       {header && (
         <div className="flex flex-col ">
           <div className="flex justify-between items-center p-6">
-            <div className="flex flex-row gap-6 items-center">
+            <div className="flex flex-row gap-6 items-center ">
               {title && <h2 className={cn(
                 "text-2xl leading-[26.63px] font-medium",
                 isDarkMode ? "text-gray-200" : "text-brotecs-black-1/90"
