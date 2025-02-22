@@ -1,5 +1,5 @@
 import { SearchNormal1, ArrowDown2, ArrowUp2 } from 'iconsax-react';
-import React from 'react';
+import React, { useState } from 'react';
 import { useSignal } from '@preact/signals-react';
 import cn from '../../utils/cn';
 import Button from '../buttons/ButtonRC';
@@ -61,10 +61,20 @@ const Table: React.FC<TableProps> = ({
   const { isDarkMode } = useTheme();
   const rowsPerPage = useSignal(5);
   const searchInputs = useSignal<Record<string, string>>({});
+  const [firstNameSearch, setFirstNameSearch] = useState<string>('');
+
+
   const sortConfig = useSignal<{ key: string; order: 'asc' | 'desc' | null }>({
     key: '',
     order: null,
   });
+
+  const handleFirstNameSearchChange = (value: string) => {
+    setFirstNameSearch(value);
+  };
+  
+  
+  
   console.log('table data', data);
   // console.log('pagination ', pagination);
   const totalPages = Math.ceil((data?.length || 0) / rowsPerPage.value);
@@ -116,6 +126,11 @@ const Table: React.FC<TableProps> = ({
     currentPage.value * rowsPerPage.value
   );
 
+  const filteredTasks = paginatedTasks?.filter((row) => {
+    return row.firstName.toLowerCase().includes(firstNameSearch.toLowerCase());
+  });
+  
+
   const handleCheckboxChange = (row: SelectedItem) => {
     const selectedItems = selectedItem || [];
     const isAlreadySelected = selectedItems.some((item) => item.id === row.id);
@@ -132,50 +147,52 @@ const Table: React.FC<TableProps> = ({
     )}>
       {header && (
         <div className="flex flex-col ">
-         <div className="flex flex-col sm:flex-row justify-between items-center p-6">
-  <div className="flex flex-col sm:flex-row gap-6 items-center w-full sm:w-auto">
-    {title && (
-      <h2
-        className={cn(
-          "text-2xl leading-[26.63px] font-medium",
-          isDarkMode ? "text-gray-200" : "text-brotecs-black-1/90"
-        )}
-      >
-        {title}
-      </h2>
-    )}
+          <div className="flex flex-col sm:flex-row justify-between items-center p-6">
+            <div className="flex flex-col sm:flex-row gap-6 items-center w-full sm:w-auto">
+              {title && (
+                <h2
+                  className={cn(
+                    "text-2xl leading-[26.63px] font-medium",
+                    isDarkMode ? "text-gray-200" : "text-brotecs-black-1/90"
+                  )}
+                >
+                  {title}
+                </h2>
+              )}
 
-    {showHeaderSearchbar === true && (
-      <div className="relative w-full sm:w-auto">
-        <input
-          type="text"
-          placeholder="Search"
-          className={cn(
-            "pl-8 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 w-full sm:w-auto",
-            isDarkMode
-              ? "bg-gray-700 text-white border-gray-600 focus:ring-gray-500"
-              : "border-gray-300 focus:ring-brotecs-blue"
-          )}
-        />
-        <SearchNormal1 className="absolute left-2 top-3 text-gray-400 w-4 h-4" />
-      </div>
-    )}
-  </div>
+              {showHeaderSearchbar === true && (
+                <div className="relative w-full sm:w-auto">
+                  <input
+                    type="text"
+                    placeholder="Search"
+                    value={firstNameSearch} 
+                    onChange={(e) => handleFirstNameSearchChange(e.target.value)}
+                    className={cn(
+                      "pl-8 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 w-full sm:w-auto",
+                      isDarkMode
+                        ? "bg-gray-700 text-white border-gray-600 focus:ring-gray-500"
+                        : "border-gray-300 focus:ring-brotecs-blue"
+                    )}
+                  />
+                  <SearchNormal1 className="absolute left-2 top-3 text-gray-400 w-4 h-4" />
+                </div>
+              )}
+            </div>
 
-  <div className="flex flex-col sm:flex-row space-x-4 w-full sm:w-auto mt-4 sm:mt-0">
-    {addBtnName && (
-      <Button
-        size="xs"
-        onClick={onAddClick}
-        bgColor={isDarkMode ? "bg-gray-700" : "bg-[#3498DB]"}
-        textColor="text-white"
-        hoverColor={isDarkMode ? "hover:bg-gray-600" : "hover:bg-brotecs-blue/80"}
-      >
-        {addBtnName}
-      </Button>
-    )}
-  </div>
-</div>
+            <div className="flex flex-col sm:flex-row space-x-4 w-full sm:w-auto mt-4 sm:mt-0">
+              {addBtnName && (
+                <Button
+                  size="xs"
+                  onClick={onAddClick}
+                  bgColor={isDarkMode ? "bg-gray-700" : "bg-[#3498DB]"}
+                  textColor="text-white"
+                  hoverColor={isDarkMode ? "hover:bg-gray-600" : "hover:bg-brotecs-blue/80"}
+                >
+                  {addBtnName}
+                </Button>
+              )}
+            </div>
+          </div>
 
 
           {showStatusBarOnHeader == true ? (
@@ -330,7 +347,7 @@ const Table: React.FC<TableProps> = ({
             </tr>
           </thead>
           <tbody className={cn('text-sm font-light', isDarkMode ? 'bg-gray-900 text-white divide-gray-700' : 'bg-white divide-gray-200')}>
-            {paginatedTasks?.map((row, rowIndex) => {
+            {filteredTasks?.map((row, rowIndex) => {
               const isChecked = selectedItem?.some((item) => item.id === row.id);
               return (
                 <tr

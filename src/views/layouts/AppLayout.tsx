@@ -6,7 +6,7 @@ import { Signal, useSignal } from "@preact/signals-react";
 import logo from '/assets/logo.png'
 import cn from "../../utils/cn";
 import RippleDivRC from "../../components/effect/ripple/div/RippleDivRC";
-import { Box,HomeTrendUp, Maximize1, SearchNormal1, Setting2, Sun1, UserOctagon } from "iconsax-react";
+import { Box, HomeTrendUp, Maximize1, SearchNormal1, Setting2, Sun1, UserOctagon } from "iconsax-react";
 import RNavItemRC from "../../components/sidebar/NavItemRC";
 import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
@@ -132,77 +132,77 @@ const AppLayout = () => {
     <div className={`flex bg-gray-100 font-inter ${isDarkMode ? 'bg-gray-900 text-white' : ''}`}>
       {/* Header */}
       <header
-  className={cn(
-    `fixed top-0 left-0 right-0 z-20 flex items-center justify-between bg-[brotecs-white] px-[2.7rem] py-[1rem] transition-all duration-500 ease-in-out`,
-    isExpanded.value ? 'ml-64' : 'ml-20',
-    'max-md:ml-0',
-    isDarkMode ? 'bg-gray-900 text-white' : ''
-  )}
->
-  <div className="flex items-center space-x-4">
-    {/* Toggle Button */}
-    <ToggleButton onClickHandler={() => (isExpanded.value = !isExpanded.value)} />
-
-    {/* Search Bar - Hidden on Mobile */}
-    <div className="relative max-md:hidden">
-      <input
-        type="text"
-        placeholder="Search"
         className={cn(
-          "bg-brotecs-white pl-8 pr-4 py-2 w-72 border-brotecs-default border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 placeholder:font-light placeholder:text-brotecs-default placeholder:text-sm placeholder:leading-5",
-          isDarkMode ? "bg-gray-700 text-white border-gray-600" : "bg-white text-black border-gray-300 placeholder-gray-600"
+          `fixed top-0 left-0 right-0 z-20 flex items-center justify-between bg-[brotecs-white] px-[2.7rem] py-[1rem] transition-all duration-500 ease-in-out`,
+          isExpanded.value ? 'ml-64' : 'ml-20',
+          'max-md:ml-0',
+          isDarkMode ? 'bg-gray-900 text-white' : ''
         )}
-      />
-      <SearchNormal1
-        className={cn("absolute left-2 top-3 w-4 h-4", isDarkMode ? "text-gray-300" : "text-gray-400")}
-      />
-    </div>
-  </div>
+      >
+        <div className="flex items-center space-x-4">
+          {/* Toggle Button */}
+          <ToggleButton onClickHandler={() => (isExpanded.value = !isExpanded.value)} />
 
-  {/* Header Icons - Always Visible */}
-  <div className="flex items-center space-x-6">
-    <Tooltip content={isDarkMode ? 'Go Light' : 'Go Dark'} placement="bottom">
-      <Sun1
-        size="24"
-        className={cn("cursor-pointer", isDarkMode ? "text-yellow-400" : "text-gray-600")}
-        onClick={toggleDarkMode}
-      />
-    </Tooltip>
+          {/* Search Bar - Hidden on Mobile */}
+          <div className="relative max-md:hidden">
+            <input
+              type="text"
+              placeholder="Search"
+              className={cn(
+                "bg-brotecs-white pl-8 pr-4 py-2 w-72 border-brotecs-default border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 placeholder:font-light placeholder:text-brotecs-default placeholder:text-sm placeholder:leading-5",
+                isDarkMode ? "bg-gray-700 text-white border-gray-600" : "bg-white text-black border-gray-300 placeholder-gray-600"
+              )}
+            />
+            <SearchNormal1
+              className={cn("absolute left-2 top-3 w-4 h-4", isDarkMode ? "text-gray-300" : "text-gray-400")}
+            />
+          </div>
+        </div>
 
-    <Tooltip content="Notifications" placement="bottom">
-      <span
-        dangerouslySetInnerHTML={{ __html: svgIcons.notification }}
-        className={cn("cursor-pointer", isDarkMode ? "text-gray-300" : "text-gray-600")}
-      />
-    </Tooltip>
+        {/* Header Icons - Always Visible */}
+        <div className="flex items-center space-x-6">
+          <Tooltip content={isDarkMode ? 'Go Light' : 'Go Dark'} placement="bottom">
+            <Sun1
+              size="24"
+              className={cn("cursor-pointer", isDarkMode ? "text-yellow-400" : "text-gray-600")}
+              onClick={toggleDarkMode}
+            />
+          </Tooltip>
 
-    <Tooltip content="Language" placement="bottom">
-      <span
-        dangerouslySetInnerHTML={{ __html: svgIcons.language }}
-        className={cn("cursor-pointer", isDarkMode ? "text-gray-300" : "text-gray-600")}
-      />
-    </Tooltip>
+          <Tooltip content="Notifications" placement="bottom">
+            <span
+              dangerouslySetInnerHTML={{ __html: svgIcons.notification }}
+              className={cn("cursor-pointer", isDarkMode ? "text-gray-300" : "text-gray-600")}
+            />
+          </Tooltip>
 
-    <Tooltip content={isFullScreen.value ? 'Exit' : 'Fullscreen'} placement="bottom">
-      <div onClick={handleFullScreenToggle}>
-        {isFullScreen.value ? (
-          <span
-            dangerouslySetInnerHTML={{ __html: svgIcons.fullscreen }}
-            className={cn("cursor-pointer", isDarkMode ? "text-gray-300" : "text-gray-600")}
-          />
-        ) : (
-          <Maximize1
-            className={cn("w-8 h-7 cursor-pointer", isDarkMode ? "text-gray-300" : "text-gray-600")}
-            variant="Bulk"
-          />
-        )}
-      </div>
-    </Tooltip>
+          <Tooltip content="Language" placement="bottom">
+            <span
+              dangerouslySetInnerHTML={{ __html: svgIcons.language }}
+              className={cn("cursor-pointer", isDarkMode ? "text-gray-300" : "text-gray-600")}
+            />
+          </Tooltip>
 
-    {/* Profile Dropdown */}
-    <ProfileDropdown image="assets/images/user.jpg" username={username.value} />
-  </div>
-</header>
+          <Tooltip content={isFullScreen.value ? 'Exit' : 'Fullscreen'} placement="bottom">
+            <div onClick={handleFullScreenToggle}>
+              {isFullScreen.value ? (
+                <span
+                  dangerouslySetInnerHTML={{ __html: svgIcons.fullscreen }}
+                  className={cn("cursor-pointer", isDarkMode ? "text-gray-300" : "text-gray-600")}
+                />
+              ) : (
+                <Maximize1
+                  className={cn("w-8 h-7 cursor-pointer", isDarkMode ? "text-gray-300" : "text-gray-600")}
+                  variant="Bulk"
+                />
+              )}
+            </div>
+          </Tooltip>
+
+          {/* Profile Dropdown */}
+          <ProfileDropdown image="assets/images/user.jpg" username={username.value} />
+        </div>
+      </header>
 
       {/* Sidebar */}
       <Sidebar isExpanded={isExpanded} />
