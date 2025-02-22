@@ -17,7 +17,6 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   onDeleteClick,
   item,
   showOnlyDelete,
-  viewButton,
 }) => {
   const buttons = [
     {

@@ -6,9 +6,9 @@ import { Signal, useSignal } from "@preact/signals-react";
 import logo from '/assets/logo.png'
 import cn from "../../utils/cn";
 import RippleDivRC from "../../components/effect/ripple/div/RippleDivRC";
-import { Box, CloudLightning, HomeTrendUp, Maximize1, Profile2User, ProfileAdd, SearchNormal1, Setting2, Sun1, UserOctagon } from "iconsax-react";
+import { Box,HomeTrendUp, Maximize1, SearchNormal1, Setting2, Sun1, UserOctagon } from "iconsax-react";
 import RNavItemRC from "../../components/sidebar/NavItemRC";
-import { Suspense, useState } from "react";
+import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 import Placeholder from "../../components/ui/Placeholder";
 import { useTheme } from "../../ContextProvider/ThemeContext";

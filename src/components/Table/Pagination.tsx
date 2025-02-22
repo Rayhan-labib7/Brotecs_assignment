@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft2, ArrowRight2, Next, Previous } from 'iconsax-react';
+import { ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import Button from '../buttons/ButtonRC';
 import cn from '../../utils/cn';
 import svgIcons from '../../service/svgService';

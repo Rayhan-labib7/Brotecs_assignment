@@ -1,5 +1,5 @@
 import { SearchNormal1, ArrowDown2, ArrowUp2 } from 'iconsax-react';
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import { useSignal } from '@preact/signals-react';
 import cn from '../../utils/cn';
 import Button from '../buttons/ButtonRC';

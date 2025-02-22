@@ -9,11 +9,10 @@ interface ImageUploadProps {
   inputClassName?: string;
   placeholder?: string;
   imagePreview?: boolean;
-  value?:string
 }
 
 const ImageUpload = forwardRef<HTMLInputElement, ImageUploadProps>(
-  ({ label = '', onImageUpload, inputClassName = '', imagePreview, value,placeholder }, ref) => {
+  ({ label = '', onImageUpload, inputClassName = '', imagePreview,placeholder }, ref) => {
     // console.log("onImageUpload ---------------------------",onImageUpload);
     console.log("labib bbbbbbbbbbbbbbbbbbbb");
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -56,7 +55,6 @@ const ImageUpload = forwardRef<HTMLInputElement, ImageUploadProps>(
       console.log("chekc file ",file);
       if (file && file.type.startsWith('image/')) {
         preview.value = URL.createObjectURL(file);
-        value=preview.value
         console.log("url :",preview.value);
         fileName.value =preview.value;
         onImageUpload(file);
