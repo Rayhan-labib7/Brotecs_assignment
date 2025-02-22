@@ -69,9 +69,11 @@ const Pagination: React.FC<PaginationProps> = ({
     );
 
   return (
-    <div className={cn('flex justify-between p-4 border-t', isDarkMode ? 'border-gray-600 bg-gray-800' : 'border-gray-200 bg-white')}>
-      <div className="flex items-center">
-        {/* Rows per page */}
+    <div className={cn('flex flex-col p-4 border-t', isDarkMode ? 'border-gray-600 bg-gray-800' : 'border-gray-200 bg-white')}>
+    {/* Inputs row */}
+    <div className="flex flex-col sm:flex-row justify-between items-center mb-4 sm:mb-0">
+      {/* Rows per page */}
+      <div className="flex items-center mb-2 sm:mb-0">
         <span className={cn('mr-2 text-xs', isDarkMode ? 'text-gray-300' : 'text-brotecs-black-2')}>Rows per page:</span>
         <select
           value={rowsPerPage}
@@ -87,9 +89,11 @@ const Pagination: React.FC<PaginationProps> = ({
             </option>
           ))}
         </select>
-
-        {/* Go to page */}
-        <span className={cn('ml-4 text-xs', isDarkMode ? 'text-gray-300' : 'text-brotecs-black-2')}>Go to</span>
+      </div>
+  
+      {/* Go to page */}
+      <div className="flex items-center">
+        <span className={cn('mr-2 text-xs', isDarkMode ? 'text-gray-300' : 'text-brotecs-black-2')}>Go to</span>
         <input
           type="number"
           min="1"
@@ -97,67 +101,67 @@ const Pagination: React.FC<PaginationProps> = ({
           value={currentPage}
           onChange={(e) => handlePageChange(Number(e.target.value))}
           className={cn(
-            'ml-2 border rounded-md w-12 px-2 py-1 transition-colors',
+            'border rounded-md w-12 px-2 py-1 transition-colors',
             isDarkMode ? 'bg-gray-700 border-gray-600 text-gray-300' : 'border-brotecs-black-1'
           )}
         />
       </div>
-
-      <div className="flex items-center">
-        {/* Pagination buttons */}
-
-        <Button
-  onClick={() => handlePageChange(1)}
-  disabled={currentPage === 1}
-  className={cn(
-    'border mr-2 transition-colors',
-    isDarkMode ? 'border-gray-600 bg-gray-800 text-gray-300 hover:bg-gray-700' : 'border-gray-300 hover:bg-gray-50'
-  )}
-  size="sm"
->
-  <span dangerouslySetInnerHTML={{ __html: svgIcons.previousBtn }} />
-</Button>
-
-<Button
-  onClick={() => handlePageChange(currentPage - 1)}
-  disabled={currentPage === 1}
-  className={cn(
-    'border transition-colors',
-    isDarkMode ? 'border-gray-600 bg-gray-800 text-gray-300 hover:bg-gray-700' : 'border-gray-300 hover:bg-gray-50'
-  )}
-  size="sm"
->
-  <ArrowLeft2 size="16" color={isDarkMode ? '#D1D5DB' : '#566573'} />
-</Button>
-
-{generatePageNumbers().map(renderPageButton)}
-
-<Button
-  onClick={() => handlePageChange(currentPage + 1)}
-  disabled={currentPage === totalPages}
-  className={cn(
-    'border transition-colors',
-    isDarkMode ? 'border-gray-600 bg-gray-800 text-gray-300 hover:bg-gray-700' : 'border-gray-300 hover:bg-gray-50'
-  )}
-  size="sm"
->
-  <ArrowRight2 size="16" color={isDarkMode ? '#D1D5DB' : '#566573'} />
-</Button>
-
-<Button
-  onClick={() => handlePageChange(totalPages)}
-  disabled={currentPage === totalPages}
-  className={cn(
-    'border ml-2 transition-colors',
-    isDarkMode ? 'border-gray-600 bg-gray-800 text-gray-300 hover:bg-gray-700' : 'border-gray-300 hover:bg-gray-50'
-  )}
-  size="sm"
->
-  <span dangerouslySetInnerHTML={{ __html: svgIcons.forwardBtn }} />
-</Button>
-
-      </div>
     </div>
+  
+    {/* Buttons row */}
+    <div className="flex justify-center sm:justify-end">
+      {/* Pagination buttons */}
+      <Button
+        onClick={() => handlePageChange(1)}
+        disabled={currentPage === 1}
+        className={cn(
+          'border mr-2 transition-colors',
+          isDarkMode ? 'border-gray-600 bg-gray-800 text-gray-300 hover:bg-gray-700' : 'border-gray-300 hover:bg-gray-50'
+        )}
+        size="sm"
+      >
+        <span dangerouslySetInnerHTML={{ __html: svgIcons.previousBtn }} />
+      </Button>
+  
+      <Button
+        onClick={() => handlePageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+        className={cn(
+          'border transition-colors',
+          isDarkMode ? 'border-gray-600 bg-gray-800 text-gray-300 hover:bg-gray-700' : 'border-gray-300 hover:bg-gray-50'
+        )}
+        size="sm"
+      >
+        <ArrowLeft2 size="16" color={isDarkMode ? '#D1D5DB' : '#566573'} />
+      </Button>
+  
+      {generatePageNumbers().map(renderPageButton)}
+  
+      <Button
+        onClick={() => handlePageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+        className={cn(
+          'border transition-colors',
+          isDarkMode ? 'border-gray-600 bg-gray-800 text-gray-300 hover:bg-gray-700' : 'border-gray-300 hover:bg-gray-50'
+        )}
+        size="sm"
+      >
+        <ArrowRight2 size="16" color={isDarkMode ? '#D1D5DB' : '#566573'} />
+      </Button>
+  
+      <Button
+        onClick={() => handlePageChange(totalPages)}
+        disabled={currentPage === totalPages}
+        className={cn(
+          'border ml-2 transition-colors',
+          isDarkMode ? 'border-gray-600 bg-gray-800 text-gray-300 hover:bg-gray-700' : 'border-gray-300 hover:bg-gray-50'
+        )}
+        size="sm"
+      >
+        <span dangerouslySetInnerHTML={{ __html: svgIcons.forwardBtn }} />
+      </Button>
+    </div>
+  </div>
   );
 };
 

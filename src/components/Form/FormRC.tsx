@@ -172,32 +172,35 @@ const FormRC: React.FC<FormProps> = ({
 
         </div>
       </div>
-      <div className={cn(`mt-2`, buttonWidth)}>
-        <Button
-          size={submitLabel === 'Create Contact' ? 'xs' : 'md'}
-          bgColor="bg-brotecs-blue dark:bg-gray-700"
-          className={cn(submitLabel !== 'Create Contact' && 'w-full')}
-          textColor="text-white dark:text-white"
-          type="submit"
-          hoverColor="hover:bg-brotecs-blue/90 dark:hover:bg-brotecs-blue-600"
-        >
-          {submitLabel}
-        </Button>
-
-        {cancel && (
+      <div className={cn('mt-2', buttonWidth)}>
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
           <Button
-            size="md"
-            hoverColor="hover:bg-red-400 "
-            hoverTextColor="hover:text-white "
-            textColor="text-red-600 dark:text-red-700 "
-            bgColor="bg-brotecs-light-red dark:bg-red-200"
-            className="w-1/4"
-            onClick={() => navigateToCancel(navigateLink)}
+            size={submitLabel === 'Create Contact' ? 'xs' : 'md'}
+            bgColor="bg-brotecs-blue dark:bg-gray-700"
+            className={cn(submitLabel !== 'Create Contact' && 'w-full sm:w-auto')}
+            textColor="text-white dark:text-white"
+            type="submit"
+            hoverColor="hover:bg-brotecs-blue/90 dark:hover:bg-brotecs-blue-600"
           >
-            Cancel
+            {submitLabel}
           </Button>
-        )}
+
+          {cancel && (
+            <Button
+              size="md"
+              hoverColor="hover:bg-red-400 "
+              hoverTextColor="hover:text-white "
+              textColor="text-red-600 dark:text-red-700 "
+              bgColor="bg-brotecs-light-red dark:bg-red-200"
+              className="w-full sm:w-1/4"
+              onClick={() => navigateToCancel(navigateLink)}
+            >
+              Cancel
+            </Button>
+          )}
+        </div>
       </div>
+
     </form>
   );
 };

@@ -127,50 +127,56 @@ const Table: React.FC<TableProps> = ({
 
   return (
     <div className={cn(
-     '  ',
+      '  ',
       isDarkMode ? 'bg-gray-800 text-white  rounded-lg shadow' : 'bg-white rounded-md shadow-lg'
     )}>
       {header && (
         <div className="flex flex-col ">
-          <div className="flex justify-between items-center p-6">
-            <div className="flex flex-row gap-6 items-center ">
-              {title && <h2 className={cn(
-                "text-2xl leading-[26.63px] font-medium",
-                isDarkMode ? "text-gray-200" : "text-brotecs-black-1/90"
-              )}>{title}</h2>}
-              {showHeaderSearchbar == true ? (
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="Search"
-                    className={cn(
-                      "pl-8 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2",
-                      isDarkMode
-                        ? "bg-gray-700 text-white border-gray-600 focus:ring-gray-500"
-                        : "border-gray-300 focus:ring-brotecs-blue"
-                    )}
-                  />
-                  <SearchNormal1 className="absolute left-2 top-3 text-gray-400 w-4 h-4" />
-                </div>
-              ) : (
-                <></>
-              )}
-            </div>
-            <div className="flex space-x-4">
+         <div className="flex flex-col sm:flex-row justify-between items-center p-6">
+  <div className="flex flex-col sm:flex-row gap-6 items-center w-full sm:w-auto">
+    {title && (
+      <h2
+        className={cn(
+          "text-2xl leading-[26.63px] font-medium",
+          isDarkMode ? "text-gray-200" : "text-brotecs-black-1/90"
+        )}
+      >
+        {title}
+      </h2>
+    )}
 
-              {addBtnName && (
-                <Button
-                  size="xs"
-                  onClick={onAddClick}
-                  bgColor={isDarkMode ? "bg-gray-700" : "bg-[#3498DB]"}
-                  textColor="text-white"
-                  hoverColor={isDarkMode ? "hover:bg-gray-600" : "hover:bg-brotecs-blue/80"}
-                >
-                  {addBtnName}
-                </Button>
-              )}
-            </div>
-          </div>
+    {showHeaderSearchbar === true && (
+      <div className="relative w-full sm:w-auto">
+        <input
+          type="text"
+          placeholder="Search"
+          className={cn(
+            "pl-8 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 w-full sm:w-auto",
+            isDarkMode
+              ? "bg-gray-700 text-white border-gray-600 focus:ring-gray-500"
+              : "border-gray-300 focus:ring-brotecs-blue"
+          )}
+        />
+        <SearchNormal1 className="absolute left-2 top-3 text-gray-400 w-4 h-4" />
+      </div>
+    )}
+  </div>
+
+  <div className="flex flex-col sm:flex-row space-x-4 w-full sm:w-auto mt-4 sm:mt-0">
+    {addBtnName && (
+      <Button
+        size="xs"
+        onClick={onAddClick}
+        bgColor={isDarkMode ? "bg-gray-700" : "bg-[#3498DB]"}
+        textColor="text-white"
+        hoverColor={isDarkMode ? "hover:bg-gray-600" : "hover:bg-brotecs-blue/80"}
+      >
+        {addBtnName}
+      </Button>
+    )}
+  </div>
+</div>
+
 
           {showStatusBarOnHeader == true ? (
             <div className={cn(
@@ -367,9 +373,6 @@ const Table: React.FC<TableProps> = ({
         totalPages={totalPages}
         currentPage={currentPage.value}
         rowsPerPage={rowsPerPage.value}
-        // totalPages={3}
-        // currentPage={2}
-        // rowsPerPage={5}
         handlePageChange={handlePageChange}
         handleRowsPerPageChange={handleRowsPerPageChange}
       />
