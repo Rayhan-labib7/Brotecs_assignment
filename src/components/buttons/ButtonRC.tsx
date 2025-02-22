@@ -31,14 +31,14 @@ const Button: React.FC<ButtonProps> = ({
   // Size-based styles
   const sizeStyles = {
     sm: 'px-2 py-2 text-sm font-normal',
-    md: 'px-4 py-4 text-base font-medium',
+    md: 'px-2 py-2 text-base font-medium',
     xs: 'px-4 py-2 text-base font-medium',
     lg: 'px-6 py-3 text-lg font-bold',
     xl: 'px-3 py-3 text-sm font-bold',
   };
   const btnName = {
     submit:
-      'bg-nps-blue hover:bg-nps-blue/90 text-white w-full shadow transform hover:-translate-y-1 transition-transform duration-200  leading-[23.12px] tracking-[0.015em]',
+      'bg-brotecs-blue hover:bg-brotecs-blue/90 text-white w-full shadow transform hover:-translate-y-1 transition-transform duration-200  leading-[23.12px] tracking-[0.015em]',
     iconBtn: 'flex items-center mr-3 text-gray-600 hover:text-gray-700 border-[0.5px] p-2',
   };
 

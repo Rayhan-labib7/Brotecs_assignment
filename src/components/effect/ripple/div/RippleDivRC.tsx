@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import './RippleDivRC.css';
+import React, { useEffect, useState } from "react";
+import { useTheme } from "../../../../ContextProvider/ThemeContext";
 
 interface RippleDivRCProps {
   children?: React.ReactNode;
@@ -7,6 +7,7 @@ interface RippleDivRCProps {
 }
 
 const RippleDivRC = ({ children, className }: RippleDivRCProps) => {
+  const { isDarkMode } = useTheme(); // Access current theme state
   const [coords, setCoords] = useState({ x: -1, y: -1 });
   const [rippleActive, setRippleActive] = useState(false);
 
@@ -22,17 +23,26 @@ const RippleDivRC = ({ children, className }: RippleDivRCProps) => {
 
   return (
     <div
-      tabIndex={0} // Add tabIndex attribute to make the div focusable
-      className={`ripple-div ${className ?? ''}`}
+      tabIndex={0}
+      className={`relative overflow-hidden rounded-md focus:outline-none transition-colors duration-300 ${
+        isDarkMode ? "bg-gray-800 text-white" : ""
+      } ${className ?? ""}`}
       onClick={(e) => {
         const rect = (e.target as HTMLElement).getBoundingClientRect();
         setCoords({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-        // e.stopPropagation(); // Prevent the click event from affecting other elements
       }}
     >
-      {rippleActive ? (
-        <span className="ripple-span w-0" style={{ left: coords.x, top: coords.y } as React.CSSProperties} />
-      ) : null}
+      {rippleActive && (
+        <span
+          className={`absolute block w-0 h-0 rounded-full bg-white/40 animate-ripple ${
+            isDarkMode ? "bg-white/20" : "bg-black/20"
+          }`}
+          style={{
+            left: coords.x,
+            top: coords.y,
+          }}
+        />
+      )}
       {children}
     </div>
   );

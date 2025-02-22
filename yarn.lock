@@ -1035,12 +1035,13 @@ braces@^3.0.3, braces@~3.0.2:
     "@preact/signals-react" "1.3.8"
     "@radix-ui/react-tooltip" "^1.1.8"
     axios "^1.7.9"
-    brostech "file:../../../.cache/yarn/v6/npm-brostech-0.0.0-98021014-4b6b-4690-bbf5-866cc59aa601-1740140773171/node_modules/brostech"
+    brostech "file:../../../.cache/yarn/v6/npm-brostech-0.0.0-1a3b2c4c-8543-4f96-947e-41ce9afeff8a-1740159123586/node_modules/brostech"
     class-variance-authority "^0.7.1"
     clsx "^2.1.1"
     iconsax-react "^0.0.8"
     react "^18.3.1"
     react-dom "^18.3.1"
+    react-hook-form "^7.53.2"
     react-router-dom "^7.2.0"
     react-toastify "^10.0.6"
     react-tooltip "^5.28.0"
@@ -2055,6 +2056,11 @@ react-dom@^18.3.1:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.23.2"
+
+react-hook-form@^7.53.2:
+  version "7.54.2"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.54.2.tgz#8c26ed54c71628dff57ccd3c074b1dd377cfb211"
+  integrity sha512-eHpAUgUjWbZocoQYUHposymRb4ZP6d0uwUnooL2uOybA9/3tPUvoAKqEWK1WaSiTxxOfTpffNZP7QwlnM3/gEg==
 
 react-is@^16.13.1:
   version "16.13.1"

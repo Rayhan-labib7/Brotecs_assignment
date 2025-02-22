@@ -1,176 +1,248 @@
-import React, { useState } from 'react';
+import { SubmitHandler } from 'react-hook-form';
+// import NPS_Loader from '../../../components/NPS_Loader/NPS_Loader';
+// import { Contact } from '../../../global';
+import { useSignal } from '@preact/signals-react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import FormRC from '../../../components/Form/FormRC';
+import { tableData, TableData } from '../../../global';
+import { useState } from 'react';
+import { useEmployee } from '../../../ContextProvider/EmployeeProvider';
+import { showSuccessToast } from '../../../components/Toast/toastUtils';
+import { ToastContainer } from 'react-toastify';
+import ImageUpload from '../../../components/CustomInput/ImageInput';
+import ComboBox from '../../../components/CustomInput/ComboBox';
+import { useTheme } from '../../../ContextProvider/ThemeContext';
+import cn from '../../../utils/cn';
+// import { Addcontact, updateContact } from '../../../services/ContactApi/contact';
 
-// import ComboBox from '../../../components/textfield/ComboBox';
-// import TextAreaField from '../../../components/textfield/TextArea';
-// import ImageUpload from '../../../components/textfield/ImageInput';
-import Button from '../../../components/buttons/ButtonRC';
-// import FileInputModal from '../../../components/modal/FileInputModal';
-import { ProductData, ProductInformation } from '../../../global';
-import { useNavigate } from 'react-router-dom';
-import InputField from '../../../components/Form/InputField';
-import ActionButtons from '../../../components/TableActionButton/Actions';
-
-interface Field {
-  label: string;
-  name: string;
-  type: string;
-  placeholder: string;
-  required?: boolean;
-  inputType: React.FC<any>;
-  options?: { id: number; value: string }[];
-  imagePreview?: boolean;
-}
-
-const CreateEmployee: React.FC = () => {
-  const [selectedLanguage, setSelectedLanguage] = useState('English');
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const CreateContact = () => {
+  const loadingSkeleton = useSignal(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const employeeRowData = location.state?.TableData;
+  console.log("employeeRowData :", employeeRowData);
+  const { addEmployee, updateEmployee } = useEmployee();
+  const { isDarkMode } = useTheme()
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const formFields = [
+    {
+      label: 'First Name',
+      name: 'firstName',
+      type: 'text',
+      placeholder: 'Enter your first name',
+      required: true,
+    },
+    {
+      label: 'Upload Image',
+      name: 'profilePicture',
+      type: 'file',
+      placeholder: 'Upload file',
+      required: true,
+      inputType: ImageUpload,
+      imagePreview: true,
+    },
+    {
+      label: 'Last Name',
+      name: 'lastName',
+      type: 'text',
+      placeholder: 'Enter your last name',
+      required: true,
+    },
+    {
+      label: 'Title',
+      name: 'title',
+      type: 'text',
+      placeholder: 'Title',
+      required: true,
+    },
 
-  const [formData, setFormData] = useState({
-    productCode: '',
-    productGroup: '',
-    unitMeasurement: 0,
-    salePrice: 0,
-    purchasePrice: 0,
-    currency: 0,
-    uploadImage: null,
-    additionalDocument: null,
-    status: '',
-    productName: '',
-    productDescription: '',
-  });
+    {
+      label: 'Company Name',
+      name: 'companyName',
+      type: 'text',
+      placeholder: 'Company Name',
+      required: true,
+    },
+    {
+      label: 'Phone',
+      name: 'phone',
+      type: 'text',
+      placeholder: 'Phone',
+      required: true,
+    },
+    {
+      label: 'Email',
+      name: 'email',
+      type: 'email',
+      placeholder: 'Enter your email',
+      required: true,
+    },
+    {
+      label: 'Owner',
+      name: 'owner',
+      type: 'text',
+      placeholder: 'owner',
+      required: true,
+    },
+    {
+      label: 'Company Phone',
+      name: 'companyPhone',
+      type: 'text',
+      placeholder: 'company phone',
+      required: true,
+    },
+    {
+      label: 'Lead',
+      name: 'leadStatusKey',
+      inputType: ComboBox,
+      options: [
+        { id: 1, value: 'Technology' },
+        { id: 2, value: 'Healthcare' },
+        { id: 3, value: 'Finance' },
+        { id: 4, value: 'Education' },
+      ],
+      placeholder: 'Select an industry',
+      required: true,
+    },
+    {
+      label: 'Address',
+      name: 'address',
+      type: 'text',
+      placeholder: 'address',
+      required: true,
+    },
+    {
+      label: 'Industry',
+      name: 'industry',
+      type: 'text',
+      placeholder: 'industry',
+      required: true,
+    },
+    {
+      label: 'Created At',
+      name: 'createdAt',
+      type: 'date',
+      placeholder: 'createdAt',
+      required: true,
+    },
+    {
+      label: 'Last Contacted',
+      name: 'lastContacted',
+      type: 'date',
+      placeholder: 'last contacted',
+      required: true,
+    },
+    {
+      label: 'Notes',
+      name: 'notes',
+      type: 'text',
+      placeholder: 'notes',
+      required: true,
+    },
 
-  const handleSubmit = async () => {
-    const productData: ProductData = {
-      name: formData.productName || '',
-      description: formData.productDescription || '',
-      image: formData.uploadImage || '',
-      productGroup: formData.productGroup || '',
-      productCode: formData.productCode,
-      salesPrice: formData.salePrice,
-      purchasePrice: formData.purchasePrice,
-      unitOfMeasurement: formData.unitMeasurement,
-      currency: formData.currency,
+
+
+  ];
+
+  const handleFormSubmit: SubmitHandler<Record<string, any>> = async (data) => {
+    console.log("profile : ", data);
+    const newData: TableData = {
+      id: employeeRowData?.id ? employeeRowData.id : Date.now(), // Generate unique ID
+      firstName: data.firstName || "",
+      lastName: data.lastName || "",
+      profilePicture: data.profilePicture || '',
+      title: data.title || "",
+      companyName: data.companyName || "",
+      phone: data.phone || "",
+      email: data.email || "",
+      owner: data.owner || "",
+      companyPhone: data.companyPhone || "",
+      leadStatusKey: Number(data.leadStatusKey) || 0,
+      address: data.address || "",
+      industry: data.industry || "",
+      createdAt: new Date().toISOString().split("T")[0],
+      lastContacted: new Date().toISOString().split("T")[0],
+      notes: data.notes || "",
     };
 
     try {
-    //   const response = await AddProduct(productData, 'lead/v1/pvt/product');
-    //   console.log('API Response:', response);
+
+      if (employeeRowData) {
+
+
+        updateEmployee(newData);
+        showSuccessToast("Employee updated successfully");
+      } else {
+        console.log("hlw ----------------------");
+        addEmployee(newData)
+        showSuccessToast("add new employee successfully")
+      }
+
+      // console.log('API Response:', response);
 
       // Perform any additional actions after a successful API call
-      navigate('/product');
+      setTimeout(() => navigate('/'), 1000);
     } catch (error) {
-      console.error('Error:', error);
-    }
-  };
-
-
-
-  const inputFields: Field[] = [
-    { label: 'Product Code', name: 'productCode', type: 'text', placeholder: '', inputType: InputField },
-    {
-      label: 'Sale Price',
-      name: 'salePrice',
-      type: 'text',
-      placeholder: 'Ex: 20',
-      required: true,
-      inputType: InputField,
-    },
-    {
-      label: 'Purchase Price',
-      name: 'purchasePrice',
-      type: 'text',
-      placeholder: 'Ex: 20',
-      required: true,
-      inputType: InputField,
-    },
-   
-   
-    {
-      label: 'Attach Additional Document',
-      name: 'additionalDocument',
-      type: 'file',
-      placeholder: '2 files attached',
-      required: true,
-      inputType: InputField,
-      imagePreview: false,
-    },
-   
-  ];
-
-  const renderInputField = (field: Field) => {
-    const InputComponent = field.inputType;
-
-    const commonProps = {
-      name: field.name,
-      placeholder: field.placeholder,
-      required: field.required,
-      label: field.label,
-      inputClassName: 'px-2 py-2 border-brotecs-black-2-1/80',
-      parentClassName: 'mt-2 mb-2',
-      labelClassName: 'text-sm text-brotecs-black-1',
-      value: formData[field.name as keyof typeof formData] || '',
-      onChange: field.type === 'file' ? handleFileChange : handleChange,
-    };
-
-    if (field.name === 'additionalDocument') {
-      return (
-        <div onClick={openModal}>
-          <InputComponent {...commonProps} imagePreview={field.imagePreview} />
-        </div>
-      );
-    }
-
-   
-    return <InputComponent {...commonProps} type={field.type} />;
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setFormData({ ...formData, [e.target.name]: e.target.files[0] });
+      console.error('Error submitting the form:', error);
+    } finally {
+      loadingSkeleton.value = false;
     }
   };
 
   return (
-    <div>
-      <h1 className="py-5 text-lg font-bold text-brotecs-black">Create Employee</h1>
-      <div className="p-5 bg-white rounded-lg shadow">
-        {/* Language Selector */}
-      
-        {/* Product Name and Description */}
-        
-
-        {/* Input Fields */}
-        <div className="grid grid-cols-3 gap-x-4 max-sm:grid-cols-1">
-          {inputFields.map((field, index) => (
-            <div key={index} className="mb-4">
-              {renderInputField(field)}
-            </div>
-          ))}
+    <>
+      {loadingSkeleton.value ? (
+        <div>
+          {/* <NPS_Loader /> */}
         </div>
-        <Button
-          className="mb-4"
-          size="xs"
-          bgColor="bg-brotecs-blue"
-          textColor="text-white"
-          hoverColor="hover:bg-brotecs-blue/80"
-          onClick={handleSubmit}
-        >
-          Add to list
-        </Button>
-       
+      ) : (
+        <>
+          <div className="p-4 font-inter">
+            <h1
+              className={cn(
+                'font-semibold leading-5 mb-4 text-base transition-colors',
+                isDarkMode ? 'text-gray-300' : 'text-brotecs-black-1'
+              )}
+            >
+              Create Contact
+            </h1>
+            <div
+              className={cn(
+                'p-6 mx-auto rounded-lg border-[.8px] transition-colors',
+                isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-brotecs-gray'
+              )}
+            >
 
-        {/* {isModalOpen && <FileInputModal onClose={closeModal} isOpen={isModalOpen}></FileInputModal>} */}
-      </div>
-    </div>
+              <FormRC
+                background="bg-brotecs-outline p-4 rounded border border-brotecs-default mb-4"
+                gridClassName="grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8"
+                fields={formFields}
+                employeeRowData={employeeRowData}
+                onSubmit={handleFormSubmit}
+                submitLabel={employeeRowData ? "update employee" : "Create employee"}
+                buttonWidth="w-1/5 flex gap-3"
+                cancel={true}
+                title="Employee Information"
+                inputClassName="p-2"
+                navigateLink="/"
+              />
+            </div>
+            <ToastContainer
+              position="top-right"
+              autoClose={2000}
+              hideProgressBar
+              newestOnTop
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
+          </div>
+        </>
+      )}
+    </>
   );
 };
 
-export default CreateEmployee;
+export default CreateContact;

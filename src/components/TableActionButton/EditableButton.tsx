@@ -14,13 +14,13 @@ const EditableButton: React.FC<EditableButtonProps> = ({ onSave, onCancel }) => 
       icon: <span dangerouslySetInnerHTML={{ __html: svgIcons.deleteTable }} className="w-5 h-5" />,
       tooltip: 'Cancel',
       onClick: onCancel,
-      colorClasses: 'text-nps-red hover:bg-red-100 hover:text-red-700',
+      colorClasses: 'text-brotecs-red hover:bg-red-100 hover:text-red-700',
     },
     {
       icon: <span dangerouslySetInnerHTML={{ __html: svgIcons.saveTable }} className="w-5 h-5" />,
       tooltip: 'Save',
       onClick: onSave,
-      colorClasses: 'text-nps-blue hover:bg-blue-100 hover:text-blue-700',
+      colorClasses: 'text-brotecs-blue hover:bg-blue-100 hover:text-blue-700',
     },
   ];
 

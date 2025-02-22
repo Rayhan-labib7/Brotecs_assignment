@@ -57,8 +57,8 @@ const ProfileDropdown = ({ image, username }: { image: string; username: string 
               <div className="flex">
                 <ProfileImage image={image} username={username} className="mr-2" />
                 <div className="flex items-start flex-col">
-                  <p className="m-0 text-sm font-semibold leading-[1.57] text-nps-black-1">{username}</p>
-                  <p className="m-0 text-xs leading-[1.66] font-normal text-nps-black-2">UI/UX Designer</p>
+                  <p className="m-0 text-sm font-semibold leading-[1.57] text-brotecs-black-1">{username}</p>
+                  <p className="m-0 text-xs leading-[1.66] font-normal text-brotecs-black-2">Jahir Rayhan</p>
                 </div>
               </div>
               <Tooltip content="Logout" placement="bottom">

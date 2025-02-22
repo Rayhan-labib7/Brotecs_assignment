@@ -47,7 +47,10 @@ export const InputField = forwardRef<
         {/* Label for the input field */}
         <div>
           <label
-            className={cn('text-base font-normal leading-5 tracking-wider text-nps-black-1/80', labelClassName)}
+            className={cn(
+              'text-base font-normal leading-5 tracking-wider text-brotecs-black-1/80 dark:text-white',
+              labelClassName
+            )}
             htmlFor={name}
           >
             {label}
@@ -67,7 +70,8 @@ export const InputField = forwardRef<
           autoComplete="off"
           disabled={disabled}
           className={cn(
-            'w-full px-3 py-4 border text-nps-black text-sm font-normal border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-500 placeholder:text-sm placeholder:text-nps-black-1/40',
+            'w-full px-3 py-4 border text-brotecs-black text-sm font-normal border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-500 placeholder:text-sm placeholder:text-brotecs-black-1/40',
+            'dark:border-gray-600 dark:text-white dark:bg-gray-900 dark:placeholder-gray-400 dark:focus:border-blue-400 dark:focus:ring-blue-400',
             inputClassName,
             { 'opacity-50': disabled }
           )}
@@ -84,8 +88,12 @@ export const InputField = forwardRef<
               }
             }}
             aria-label="Toggle visibility"
-            className="absolute right-4 top-[55%] text-gray-500 cursor-pointer transform transition-transform duration-200 hover:scale-110 hover:text-blue-500"
-          >
+            className={cn(
+              'absolute right-4 top-[55%] text-gray-500 cursor-pointer transform transition-transform duration-200 hover:scale-110 hover:text-blue-500',
+              {
+                'text-blue-500': type === 'data', // Change icon color if type is "data"
+              }
+            )}          >
             <Icon />
           </span>
         )}

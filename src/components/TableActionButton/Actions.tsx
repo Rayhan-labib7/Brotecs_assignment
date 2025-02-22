@@ -24,7 +24,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
       icon: <Eye className="w-5 h-5" />,
       tooltip: 'View',
       onClick: onViewClick,
-      colorClasses: 'text-nps-black-1/80 hover:bg-gray-200 hover:text-gray-700',
+      colorClasses: 'text-brotecs-black-1/80 hover:bg-gray-200 hover:text-gray-700',
     },
     {
       icon: <Edit className="w-5 h-5" />,

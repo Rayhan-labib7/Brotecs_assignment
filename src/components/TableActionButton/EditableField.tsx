@@ -23,7 +23,7 @@ const EditableField: React.FC<EditableFieldProps> = ({ value, isEditing, onChang
         type="text"
         value={rawValue}
         onChange={handleInputChange}
-        className="border rounded p-2 border-nps-black-1 bg-nps-black-3 w-full"
+        className="border rounded p-2 border-brotecs-black-1 bg-brotecs-black-3 w-full"
       />
     </div>
   ) : (

@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import { useTheme } from "../../../ContextProvider/ThemeContext";
 
 const ButtonRippleRC = ({ children, onClick, className }: any) => {
+  const { isDarkMode } = useTheme(); // Access the current theme state
   const [coords, setCoords] = useState({ x: -1, y: -1 });
   const [isRippling, setIsRippling] = useState(false);
 
@@ -17,7 +19,9 @@ const ButtonRippleRC = ({ children, onClick, className }: any) => {
 
   return (
     <button
-      className={`${className} ripple-div`}
+      className={`relative overflow-hidden px-4 py-2 rounded-md transition-all duration-300 
+        ${isDarkMode ? "bg-gray-800 text-white" : "bg-gray-200 text-black"} 
+        ${className}`}
       onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
         const rect = (e.target as HTMLButtonElement).getBoundingClientRect();
         setCoords({ x: e.clientX - rect.left, y: e.clientY - rect.top });
@@ -26,12 +30,16 @@ const ButtonRippleRC = ({ children, onClick, className }: any) => {
         }
       }}
     >
-      {isRippling ? (
+      {isRippling && (
         <span
-          className="bg-white/60 opacity-100 rounded-full ripple-span"
-          style={{ left: coords.x, top: coords.y } as React.CSSProperties}
+          className={`absolute w-0 h-0 rounded-full bg-white/50 animate-ripple
+            ${isDarkMode ? "bg-white/20" : "bg-black/20"}`}
+          style={{
+            left: coords.x,
+            top: coords.y,
+          }}
         />
-      ) : null}
+      )}
       {children}
     </button>
   );

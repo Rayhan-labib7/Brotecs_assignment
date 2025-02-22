@@ -5,6 +5,7 @@ import { ArrowUp2 } from 'iconsax-react';
 import { Signal, useSignal } from '@preact/signals-react';
 import cn from '../../utils/cn';
 import { Tooltip } from '../customTool/Tooltip/Tooltip';
+import { useTheme } from '../../ContextProvider/ThemeContext';
 // import { Tooltip } from 'react-tooltip';
 
 const navCss = `relative flex flex-row items-center font-medium focus:outline-none hover:no-underline rounded-md`;
@@ -25,25 +26,59 @@ const NavLinkItem = ({
   isExpanded: Signal<boolean> | undefined;
   isChildren?: boolean;
 }) => {
+  const { isDarkMode } = useTheme(); // Get current dark mode state
+
   const handleClick = () => {
     document.title = name;
   };
+
   return (
     <NavLink
-      className={({ isActive }) => cn(navLinkClasses({ isActive }), isChildren && 'ml-[.9rem]  bg-[#f8f9fa]')}
+      className={({ isActive }) =>
+        cn(
+          navLinkClasses({ isActive }),
+          isChildren && "ml-[.9rem] bg-[#f8f9fa]",
+          isDarkMode
+            ? "text-gray-300 hover:bg-gray-700" // Dark mode styles
+            : "text-gray-800 hover:bg-gray-100" // Light mode styles
+        )
+      }
       to={route}
       onClick={handleClick}
     >
       <RippleDivRC
-        className={cn('w-full h-10 flex items-center rounded-md', isExpanded?.value ? '' : 'justify-center')}
+        className={cn(
+          "w-full h-10 flex items-center rounded-md",
+          isExpanded?.value ? "" : "justify-center",
+          isDarkMode ? "bg-gray-800" : "bg-white" // Set background color based on dark mode
+        )}
       >
-        <span className={cn('inline-flex justify-center items-center', isExpanded?.value && 'ml-4')}>{icon}</span>
+        <span
+          className={cn(
+            "inline-flex justify-center items-center",
+            isExpanded?.value && "ml-4",
+            isDarkMode ? "text-gray-300" : "text-gray-800" // Set icon color based on dark mode
+          )}
+        >
+          {icon}
+        </span>
         {isChildren && <span className="text-lg leading-none">•</span>}
-        {isExpanded?.value && <span className="ml-2 text-sm tracking-wide truncate">{name}</span>}
+        {isExpanded?.value && (
+          <span
+            className={cn(
+              "ml-2 text-sm tracking-wide truncate",
+              isDarkMode ? "text-gray-300" : "text-gray-800" // Set text color based on dark mode
+            )}
+          >
+            {name}
+          </span>
+        )}
       </RippleDivRC>
     </NavLink>
   );
 };
+
+
 
 const DropdownButton = ({
   name,
@@ -51,7 +86,6 @@ const DropdownButton = ({
   toggleDropdown,
   isExpanded,
   children,
-  
 }: {
   name: string;
   icon: React.ReactNode;
@@ -60,6 +94,7 @@ const DropdownButton = ({
   isExpanded: Signal<boolean> | undefined;
   children: React.ReactNode;
 }) => {
+  const { isDarkMode } = useTheme(); // Get current dark mode state
   const isDropdownOpen = useSignal<boolean>(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -75,32 +110,40 @@ const DropdownButton = ({
   useEffect(() => {
     toggleDropdown(isDropdownOpen.value);
   }, [isDropdownOpen.value, toggleDropdown]);
-  // console.log('route check ', route);
+
   const Content = (
     <button
       type="button"
-      className={cn('w-full flex items-center h-10', navLinkClasses({ isActive: isAnyChildActive }))}
+      className={cn(
+        'w-full flex items-center h-10',
+        navLinkClasses({ isActive: isAnyChildActive }),
+        isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-800 hover:bg-gray-100' // Dark mode styles
+      )}
     >
       <RippleDivRC
         className={cn(
           'w-full h-10 flex items-center rounded-md',
-          isExpanded?.value ? 'justify-between' : 'justify-center'
+          isExpanded?.value ? 'justify-between' : 'justify-center',
+          isDarkMode ? 'bg-gray-800' : 'bg-white' // Background color based on dark mode
         )}
       >
         <div className="flex">
-          <span className={cn('inline-flex justify-center items-center ', isExpanded?.value && 'ml-4')}>
+          <span className={cn('inline-flex justify-center items-center', isExpanded?.value && 'ml-4')}>
             {icon || null}
           </span>
           {isExpanded?.value && <span className="ml-2 text-sm tracking-wide truncate">{name}</span>}
         </div>
         {isExpanded?.value && (
           <ArrowUp2
-            className={cn('transition-transform transform w-4 m-4', isDropdownOpen.value ? 'rotate-0' : 'rotate-180')}
+            className={cn(
+              'transition-transform transform w-4 m-4',
+              isDropdownOpen.value ? 'rotate-0' : 'rotate-180'
+            )}
           />
         )}
       </RippleDivRC>
     </button>
-  ); 
+  );
 
   return (
     <div onClick={handleClick}>
@@ -114,7 +157,8 @@ const DropdownButton = ({
                   <span
                     onClick={() => navigate(child.props.route)}
                     className={cn(
-                      `cursor-pointer transition-all duration-200 ${isActive ? 'text-blue-700' : 'text-gray-500'}`
+                      `cursor-pointer transition-all duration-200 ${isActive ? 'text-blue-700' : 'text-gray-500'}`,
+                      isDarkMode ? 'text-gray-300' : 'text-gray-800' // Dark mode text color for child items
                     )}
                   >
                     {child.props.name}
@@ -125,16 +169,21 @@ const DropdownButton = ({
           </Tooltip>
         )}
 
-        {/* when expand */}
+        {/* when expanded */}
         {isExpanded?.value && (
           <button
             type="button"
-            className={cn('w-full flex items-center h-10 ', navLinkClasses({ isActive: isAnyChildActive }))}
+            className={cn(
+              'w-full flex items-center h-10',
+              navLinkClasses({ isActive: isAnyChildActive }),
+              isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-800 hover:bg-gray-100' // Dark mode styles
+            )}
           >
             <RippleDivRC
               className={cn(
                 'w-full h-10 flex items-center rounded-md',
-                isExpanded?.value ? 'justify-between' : 'justify-center'
+                isExpanded?.value ? 'justify-between' : 'justify-center',
+                isDarkMode ? 'bg-gray-800' : 'bg-white' // Background color for expanded button
               )}
             >
               <div className="flex">
@@ -158,6 +207,7 @@ const DropdownButton = ({
     </div>
   );
 };
+
 
 const RNavItemRC = ({
   name,

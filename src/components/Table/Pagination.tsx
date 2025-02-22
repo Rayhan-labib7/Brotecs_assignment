@@ -3,6 +3,7 @@ import { ArrowLeft2, ArrowRight2, Next, Previous } from 'iconsax-react';
 import Button from '../buttons/ButtonRC';
 import cn from '../../utils/cn';
 import svgIcons from '../../service/svgService';
+import { useTheme } from '../../ContextProvider/ThemeContext';
 
 interface PaginationProps {
   totalPages: number;
@@ -21,46 +22,7 @@ const Pagination: React.FC<PaginationProps> = ({
 }) => {
   // Rows per page
   const pageSize = [2, 5, 10, 20, 50];
-
-  // const generatePageNumbers = (): (string | number)[] => {
-  //   const pageNumbers: (string | number)[] = [];
-  //   console.log(currentPage, totalPages);
-  //   let leftFlag: boolean = false;
-  //   let rightFlag: boolean = false;
-
-  //   pageNumbers.push(1);
-  //   if (currentPage - 2 >= 1) {
-  //     leftFlag = true;
-  //   }
-  //   if (currentPage + 2 <= totalPages) {
-  //     rightFlag = true;
-  //   }
-  //   if (leftFlag) {
-  //     pageNumbers.push('...');
-  //   }
-  //   if (rightFlag) {
-  //     if (currentPage <= totalPages && currentPage != 1) {
-  //       pageNumbers.push(currentPage);
-  //     }
-  //     if (currentPage + 1 < totalPages) {
-  //       pageNumbers.push(currentPage + 1);
-  //     }
-  //     if (currentPage + 2 < totalPages) {
-  //       pageNumbers.push(currentPage + 2);
-  //       if (currentPage + 3 !== totalPages) {
-  //         pageNumbers.push('...');
-  //       }
-  //     }
-  //   } else if (currentPage + 1 === totalPages && currentPage !== 1) {
-  //     pageNumbers.push(currentPage);
-  //   }
-  //   if (totalPages !== 1) {
-  //     pageNumbers.push(totalPages);
-  //   }
-
-  //   console.log(pageNumbers);
-  //   return pageNumbers;
-  // };
+  const { isDarkMode } = useTheme();
 
   const generatePageNumbers = (): (string | number)[] => {
     const pageNumbers: (string | number)[] = [];
@@ -97,8 +59,9 @@ const Pagination: React.FC<PaginationProps> = ({
         key={page}
         onClick={() => handlePageChange(page)}
         className={cn(
-          'px-3 py-1 border rounded-md mx-1',
-          currentPage === page ? 'bg-blue-500 text-white' : 'hover:bg-gray-50'
+          'px-3 py-1 border rounded-md mx-1 transition-colors',
+          isDarkMode ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : 'border-gray-300 hover:bg-gray-50',
+          currentPage === page ? (isDarkMode ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white') : ''
         )}
       >
         {page}
@@ -106,14 +69,17 @@ const Pagination: React.FC<PaginationProps> = ({
     );
 
   return (
-    <div className="flex justify-between p-4 border-t border-gray-200">
+    <div className={cn('flex justify-between p-4 border-t', isDarkMode ? 'border-gray-600 bg-gray-800' : 'border-gray-200 bg-white')}>
       <div className="flex items-center">
         {/* Rows per page */}
-        <span className="mr-2 text-nps-black-2 text-xs">Rows per page:</span>
+        <span className={cn('mr-2 text-xs', isDarkMode ? 'text-gray-300' : 'text-brotecs-black-2')}>Rows per page:</span>
         <select
           value={rowsPerPage}
           onChange={handleRowsPerPageChange}
-          className="border border-nps-black-1 rounded-md px-1 py-1 w-12"
+          className={cn(
+            'border rounded-md px-1 py-1 w-12 transition-colors',
+            isDarkMode ? 'bg-gray-700 border-gray-600 text-gray-300' : 'border-brotecs-black-1'
+          )}
         >
           {pageSize.map((rows) => (
             <option key={rows} value={rows}>
@@ -123,14 +89,17 @@ const Pagination: React.FC<PaginationProps> = ({
         </select>
 
         {/* Go to page */}
-        <span className="ml-4 text-nps-black-2 text-xs">Go to</span>
+        <span className={cn('ml-4 text-xs', isDarkMode ? 'text-gray-300' : 'text-brotecs-black-2')}>Go to</span>
         <input
           type="number"
           min="1"
           max={totalPages}
           value={currentPage}
           onChange={(e) => handlePageChange(Number(e.target.value))}
-          className="ml-2 border border-nps-black-1 rounded-md w-12 px-2 py-1"
+          className={cn(
+            'ml-2 border rounded-md w-12 px-2 py-1 transition-colors',
+            isDarkMode ? 'bg-gray-700 border-gray-600 text-gray-300' : 'border-brotecs-black-1'
+          )}
         />
       </div>
 
@@ -138,48 +107,55 @@ const Pagination: React.FC<PaginationProps> = ({
         {/* Pagination buttons */}
 
         <Button
-          onClick={() => handlePageChange(1)}
-          disabled={currentPage === 1}
-          className="border mr-2 "
-          hoverColor="hover:bg-gray-50"
-          size="sm"
-        >
-          {/* <Previous size="16" color="#566573" /> */}
-          <span dangerouslySetInnerHTML={{ __html: svgIcons.previousBtn }} />
-        </Button>
+  onClick={() => handlePageChange(1)}
+  disabled={currentPage === 1}
+  className={cn(
+    'border mr-2 transition-colors',
+    isDarkMode ? 'border-gray-600 bg-gray-800 text-gray-300 hover:bg-gray-700' : 'border-gray-300 hover:bg-gray-50'
+  )}
+  size="sm"
+>
+  <span dangerouslySetInnerHTML={{ __html: svgIcons.previousBtn }} />
+</Button>
 
-        <Button
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-          className="border"
-          hoverColor="hover:bg-gray-50"
-          size="sm"
-        >
-          <ArrowLeft2 size="16" color="#566573" />
-        </Button>
+<Button
+  onClick={() => handlePageChange(currentPage - 1)}
+  disabled={currentPage === 1}
+  className={cn(
+    'border transition-colors',
+    isDarkMode ? 'border-gray-600 bg-gray-800 text-gray-300 hover:bg-gray-700' : 'border-gray-300 hover:bg-gray-50'
+  )}
+  size="sm"
+>
+  <ArrowLeft2 size="16" color={isDarkMode ? '#D1D5DB' : '#566573'} />
+</Button>
 
-        {generatePageNumbers().map(renderPageButton)}
+{generatePageNumbers().map(renderPageButton)}
 
-        <Button
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          hoverColor="hover:bg-gray-50"
-          className="border"
-          size="sm"
-        >
-          <ArrowRight2 size="16" color="#566573" />
-        </Button>
+<Button
+  onClick={() => handlePageChange(currentPage + 1)}
+  disabled={currentPage === totalPages}
+  className={cn(
+    'border transition-colors',
+    isDarkMode ? 'border-gray-600 bg-gray-800 text-gray-300 hover:bg-gray-700' : 'border-gray-300 hover:bg-gray-50'
+  )}
+  size="sm"
+>
+  <ArrowRight2 size="16" color={isDarkMode ? '#D1D5DB' : '#566573'} />
+</Button>
 
-        <Button
-          onClick={() => handlePageChange(totalPages)}
-          disabled={currentPage === totalPages}
-          className="border ml-2"
-          hoverColor="hover:bg-gray-50"
-          size="sm"
-        >
-          {/* <Next size="16" color="#566573" /> */}
-          <span dangerouslySetInnerHTML={{ __html: svgIcons.forwardBtn }} />
-        </Button>
+<Button
+  onClick={() => handlePageChange(totalPages)}
+  disabled={currentPage === totalPages}
+  className={cn(
+    'border ml-2 transition-colors',
+    isDarkMode ? 'border-gray-600 bg-gray-800 text-gray-300 hover:bg-gray-700' : 'border-gray-300 hover:bg-gray-50'
+  )}
+  size="sm"
+>
+  <span dangerouslySetInnerHTML={{ __html: svgIcons.forwardBtn }} />
+</Button>
+
       </div>
     </div>
   );

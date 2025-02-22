@@ -1,15 +1,19 @@
-import React, { useState } from 'react'
+
 import Table from '../../../components/Table/Table'
 import ActionButtons from '../../../components/TableActionButton/Actions';
 import EditableField from '../../../components/TableActionButton/EditableField';
 import { useSignal } from '@preact/signals-react';
-import { PaginationData, tableData, TableData } from '../../../global';
+import { TableData } from '../../../global';
 import EditableButton from '../../../components/TableActionButton/EditableButton';
 import cn from '../../../utils/cn';
 import { showSuccessToast } from '../../../components/Toast/toastUtils';
 import { ToastContainer } from 'react-toastify';
 import DeleteModal from '../../../components/Modal/DeleteModal';
 import { useNavigate } from 'react-router-dom';
+import { useEmployee } from '../../../ContextProvider/EmployeeProvider';
+import SkeletonLoader from '../../../components/loader/SkeletonLoader';
+import { useEffect } from 'react';
+import { useTheme } from '../../../ContextProvider/ThemeContext';
 
 type Status = 'Open' | 'Contacted' | 'Qualified' | 'Unqualified' | 'Closed';
 
@@ -18,14 +22,20 @@ const HomePage = () => {
   const editingRowId = useSignal<number | null>(null);
   const editedData = useSignal<TableData | null>(null);
   const taskToDelete = useSignal<TableData | null>(null);
-  const [empolyeeData, setempolyeeData] = useState<TableData[]>(tableData);
+  const { employees, deleteEmployee, updateEmployee } = useEmployee();
   const isDeleteModalOpen = useSignal(false);
+  const loadingSkeleton = useSignal(true);
   const deletedID = useSignal<number>(0);
-
+  const { isDarkMode } = useTheme();
+  console.log("size of employee :", employees.length);
   const navigate = useNavigate();
-  
+
+
+  const goToViewPage = (data: any) => {
+    navigate('/create-empolyee', { state: { TableData: data } });
+  };
+
   const goToCreatePage = () => {
-    console.log("naiv-----------");
     navigate('/create-empolyee');
   };
 
@@ -55,16 +65,15 @@ const HomePage = () => {
 
   const handleSaveClick = async () => {
     const updatedData = editedData.value;
-    setempolyeeData((prevEmployee) =>
-      prevEmployee.map((data) => (data.id === updatedData?.id ? { ...data, ...updatedData } : data))
-    );
+    if (!updatedData) return;
+    updateEmployee(updatedData)
     showSuccessToast("data update successfully");
     editingRowId.value = null;
     editedData.value = null;
   };
-  
+
   const handleDelete = async () => {
-    setempolyeeData((prevEmployee) => prevEmployee.filter((data) => data?.id !== deletedID.value));
+    deleteEmployee(deletedID.value)
     showSuccessToast('Employee successfully deleted');
     handleCloseModal();
   };
@@ -180,42 +189,53 @@ const HomePage = () => {
           </>
         ) : (
           <ActionButtons
-            // onViewClick={() => goToViewPage(row)}
+            onViewClick={() => goToViewPage(row)}
             onEditClick={() => handleEditClick(row)}
             onDeleteClick={() => handleDeleteClick(row)}
           />
         ),
     },
   ];
-
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      loadingSkeleton.value = false;
+    }, 1000);
+    return () => clearTimeout(timer)
+  })
   return (
-    <div className='p-5'>
-      <Table
-        columns={columns}
-        title="My Table Data"
-        data={empolyeeData}
-        onAddClick={goToCreatePage}
-        addBtnName="+ Create data"
-      />
-      <DeleteModal
-        isOpen={isDeleteModalOpen.value}
-        onClose={handleCloseModal}
-        
-        onDelete={handleDelete}
-        taskName={taskToDelete.value?.firstName || ''}
-        titleName="Leads"
-      />
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
+    <div >
+      {loadingSkeleton.value ? (
+        <SkeletonLoader />
+      ) : (
+        <div className="p-5">
+          <Table
+            columns={columns}
+            title="My Employee Data"
+            data={employees}
+            onAddClick={goToCreatePage}
+            addBtnName="+ Create data"
+          />
+          <DeleteModal
+            isOpen={isDeleteModalOpen.value}
+            onClose={handleCloseModal}
+            onDelete={handleDelete}
+            taskName={taskToDelete.value?.firstName || ''}
+            titleName="Leads"
+          />
+          <ToastContainer
+            position="top-right"
+            autoClose={2000}
+            hideProgressBar
+            newestOnTop
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme={isDarkMode ? 'dark' : 'light'} // Apply dark mode to ToastContainer
+          />
+        </div>
+      )}
     </div>
   )
 }
