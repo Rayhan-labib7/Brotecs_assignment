@@ -25,5 +25,5 @@ Follow these steps to get up and running with the project:
 ```bash
 git clone https://github.com/Rayhan-labib7/Brotecs_assignment.git
 cd Brotecs_assignment
-yarn install
+yarn 
 yarn run dev
