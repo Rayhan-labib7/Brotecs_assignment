@@ -4,6 +4,7 @@ import ProfileImage from './ProfileImage';
 import Tooltip from '../tooltip/tooltip';
 import { useSignal } from '@preact/signals-react';
 import cn from '../../utils/cn';
+import { useTheme } from '../../ContextProvider/ThemeContext';
 
 const ProfileDropdown = ({ image, username }: { image: string; username: string }) => {
   const isOpen = useSignal(false);
@@ -13,72 +14,100 @@ const ProfileDropdown = ({ image, username }: { image: string; username: string 
   const profileImageRef = useRef<HTMLDivElement | null>(null);
 
   const toggleDropdown = () => (isOpen.value = !isOpen.value);
+  const {isDarkMode}=useTheme()
 
-  // const handleLogout = async () => {
-  //   try {
-  //     const origin = window.location.origin;
-
-  //     localStorage.clear();
-  //     sessionStorage.clear();
-
-  //     document.cookie.split(';').forEach((cookie) => {
-  //       document.cookie = cookie.replace(/^ +/, '').replace(/=.*/, '=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/');
-  //     });
-
-  //     // Trigger the first redirect and from first redirect second redirect will occur
-  //     window.location.href = `${oauthConfig.logoutUrl}?redirect=${origin}`;
-  //   } catch (error) {
-  //     console.error('Logout failed:', error);
-  //   }
-  // };
 
   return (
-    <>
-      <div
-        role="button"
-        className={cn(isOpen.value ? 'visible' : 'invisible', 'fixed z-40 right-0 top-0 h-full w-full')}
-        onClick={() => {
-          isOpen.value = false;
-        }}
-      ></div>
-      <div className="relative font-inter">
-        {/* Pass the ref to the ProfileImage to prevent closing when clicking on the profile */}
-        <ProfileImage
-          ref={profileImageRef}
-          image={image}
-          username={username}
-          onClick={toggleDropdown}
-          className="mr-0"
-        />
 
-        {isOpen.value && (
-          <div ref={dropdownRef} className="absolute right-0 mt-2 w-[18rem] bg-white shadow-lg rounded-lg z-50">
-            <div className="p-4 text-center flex justify-between items-center">
-              <div className="flex">
-                <ProfileImage image={image} username={username} className="mr-2" />
-                <div className="flex items-start flex-col">
-                  <p className="m-0 text-sm font-semibold leading-[1.57] text-brotecs-black-1">{username}</p>
-                  <p className="m-0 text-xs leading-[1.66] font-normal text-brotecs-black-2">Jahir Rayhan</p>
-                </div>
+    <>
+    <div
+      role="button"
+      className={cn(isOpen.value ? 'visible' : 'invisible', 'fixed z-40 right-0 top-0 h-full w-full')}
+      onClick={() => {
+        isOpen.value = false;
+      }}
+    ></div>
+    <div className="relative font-inter">
+      {/* Pass the ref to the ProfileImage to prevent closing when clicking on the profile */}
+      <ProfileImage
+        ref={profileImageRef}
+        image={image}
+        username={username}
+        onClick={toggleDropdown}
+        className="mr-0"
+      />
+  
+      {isOpen.value && (
+        <div
+          ref={dropdownRef}
+          className={cn(
+            'absolute right-0 mt-2 w-[18rem] rounded-lg z-50',
+            isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'
+          )}
+        >
+          <div
+            className={cn(
+              'p-4 text-center flex justify-between items-center',
+              isDarkMode ? 'text-white' : 'text-brotecs-black-1'
+            )}
+          >
+            <div className="flex">
+              <ProfileImage image={image} username={username} className="mr-2" />
+              <div className="flex items-start flex-col">
+                <p
+                  className={cn(
+                    'm-0 text-sm font-semibold leading-[1.57]',
+                    isDarkMode ? 'text-white' : 'text-brotecs-black-1'
+                  )}
+                >
+                  {username}
+                </p>
+                <p
+                  className={cn(
+                    'm-0 text-xs leading-[1.66] font-normal',
+                    isDarkMode ? 'text-gray-400' : 'text-brotecs-black-2'
+                  )}
+                >
+                  Jahir Rayhan
+                </p>
               </div>
-              <Tooltip content="Logout" placement="bottom">
-                <div className="hover:bg-red-300 hover:rounded-md p-2 cursor-pointer" >
-                  <Logout color="#dc2626" variant="Bulk" />
-                </div>
-              </Tooltip>
             </div>
-            {/* underline */}
-            <hr className="my-2 border-t border-gray-300" />
-            <div className="flex cursor-pointer items-center hover:bg-gray-100 hover:rounded-md mx-3 my-4 px-1">
-              <Logout color="#5b6b79" variant="Bulk" />
-              <button className="w-full text-left text-sm text-gray-600 p-2" >
-                Logout
-              </button>
-            </div>
+            <Tooltip content="Logout" placement="bottom">
+              <div
+                className={cn(
+                  'hover:bg-red-300 hover:rounded-md p-2 cursor-pointer',
+                  isDarkMode ? 'hover:bg-red-700' : 'hover:bg-red-300'
+                )}
+              >
+                <Logout color={isDarkMode ? "#FFFFFF" : "#dc2626"} variant="Bulk" />
+              </div>
+            </Tooltip>
           </div>
-        )}
-      </div>
-    </>
+          {/* underline */}
+          <hr
+            className={cn('my-2 border-t', isDarkMode ? 'border-gray-600' : 'border-gray-300')}
+          />
+          <div
+            className={cn(
+              'flex cursor-pointer items-center hover:bg-gray-100 hover:rounded-md mx-3 my-4 px-1',
+              isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+            )}
+          >
+            <Logout color={isDarkMode ? "#FFFFFF" : "#5b6b79"} variant="Bulk" />
+            <button
+              className={cn(
+                'w-full text-left text-sm p-2',
+                isDarkMode ? 'text-gray-300' : 'text-gray-600'
+              )}
+            >
+              Logout
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  </>
+  
   );
 };
 
