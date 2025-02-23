@@ -346,7 +346,7 @@ const Table: React.FC<TableProps> = ({
               ))}
             </tr>
           </thead>
-          <tbody className={cn('text-sm font-light', isDarkMode ? 'bg-gray-900 text-white divide-gray-700' : 'bg-white divide-gray-200')}>
+          <tbody className={cn('text-sm font-light', isDarkMode ? 'bg-gray-900 text-white divide-y divide-gray-700' : 'bg-white divide-y divide-gray-200')}>
             {filteredTasks?.map((row, rowIndex) => {
               const isChecked = selectedItem?.some((item) => item.id === row.id);
               return (

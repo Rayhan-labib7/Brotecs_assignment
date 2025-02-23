@@ -22,10 +22,10 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, onClose, onDelete, ta
     >
       <div
         className={cn(
-          'flex flex-col p-6 rounded-lg shadow-lg w-full items-center font-inter transition-transform duration-300 transform',
+          'flex flex-col p-6 rounded-lg shadow-lg   items-center font-inter transition-transform duration-300 transform',
           isOpen ? 'scale-100' : 'scale-95',
           isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black', // Dark mode background and text color
-          'sm:w-72 md:w-[85%] lg:w-[50%]' // Decreased width on mobile
+          'sm:w-50 md:w-[40%] lg:w-[25%]' // Decreased width on mobile
         )}
       >
         <div className={cn('rounded-full p-8 mb-6', isDarkMode ? 'bg-red-700' : 'bg-red-100')}>
@@ -44,12 +44,12 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, onClose, onDelete, ta
           By deleting &quot;<span className="font-bold">{taskName}</span>&quot;, its details will also be removed from
           the {titleName}.
         </p>
-        <div className="flex flex-col sm:flex-row justify-end space-y-4 sm:space-x-4 w-full">
+        <div className="flex flex-col sm:flex-row justify-end sm:space-x-4   w-full">
           <button
             type="button"
             onClick={onClose}
             className={cn(
-              'px-4 py-2 rounded-md w-full sm:w-1/2',
+              'px-4 py-2 rounded-md w-full sm:w-1/2 sm:mt-3',
               isDarkMode ? 'text-gray-400 border-gray-600' : 'text-gray-500 border-gray-400',
               'border'
             )}

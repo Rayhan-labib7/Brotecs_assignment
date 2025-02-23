@@ -69,9 +69,9 @@ const Pagination: React.FC<PaginationProps> = ({
     );
 
   return (
-    <div className={cn('flex flex-col p-4 border-t', isDarkMode ? 'border-gray-600 bg-gray-800' : 'border-gray-200 bg-white')}>
+    <div className={cn('flex justify-between p-4 border-t', isDarkMode ? 'border-gray-600 bg-gray-800' : 'border-gray-200 bg-white')}>
     {/* Inputs row */}
-    <div className="flex flex-col sm:flex-row justify-between items-center mb-4 sm:mb-0">
+    <div className="flex flex-col sm:flex-row  space-x-5 items-center mb-4 sm:mb-0">
       {/* Rows per page */}
       <div className="flex items-center mb-2 sm:mb-0">
         <span className={cn('mr-2 text-xs', isDarkMode ? 'text-gray-300' : 'text-brotecs-black-2')}>Rows per page:</span>
